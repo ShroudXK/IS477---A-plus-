@@ -8,9 +8,9 @@
 ## Overview
 
 
-For our project, we want to look at how daily weather conditions are related to traffic crashes and injuries in Chicago. Rain, snow, and extreme temperatures can affect driving conditions, so we thought it would be interesting to see whether traffic accidents happen more often or lead to more injuries under certain weather conditions. We also want to see if these patterns are different depending on where the accidents happen.
+For our project, we want to look at how daily weather conditions are related to traffic crashes and injuries in Chicago. Rain, snow, and extreme temperatures can affect driving conditions, so we thought it would be interesting to see whether traffic accidents happen more often or lead to more injuries under certain weather conditions. We also want to see whether these patterns differ by location.
 
-We plan to use three datasets: Chicago Traffic Crashes, NOAA Daily Weather, and Chicago Street Center Lines. We will focus on traffic accidents reported in Chicago between 2023 and 2024.
+We plan to use three datasets: Chicago Traffic Crashes, NOAA Daily Weather, and Chicago Traffic Crashes. We will focus on traffic accidents reported in Chicago between 2023 and 2024.
 
 Our plan is to:
 
@@ -19,7 +19,7 @@ Our plan is to:
 3. Clean the datasets and make sure the dates and locations are in consistent formats.
 4. Combine the weather and crash data using dates, and match crash locations with road segments.
 5. Compare the number of crashes and reported injuries under different weather conditions and across road segments.
-6. Keep track of our steps and explain how we handled the data so that someone else could repeat our work.
+6. Track our steps and explain how we handled the data so anyone can repeat our work
 
 By the end of the project, we hope to have a combined dataset, a data dictionary, visualizations, and code that can reproduce our results. Our main focus is making sure the data is collected, cleaned, and combined properly before looking at any patterns.
 
