@@ -36,17 +36,19 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 ## Research or Business Question(s)
 
-1. **Primary question:** How does the weather relate to traffic crashes and injuries on  roads in Chicago?
+1. **Primary question:** How does the average daily number of reported traffic crashes in Chicago differ between days with and without precipitation?
 
-2. **Supporting question:** Do we see more traffic crashes or injuries on rainy and snowy days compared to days with no rain or snow?
+2. **Supporting question:** Among people involved in reported crashes, how does the proportion sustaining injuries differ among drivers, passengers, pedestrians, and cyclists?
 
-3. **Supporting question:** Are there certain roads in Chicago where crashes happen more often, especially under different weather conditions?
+3. **Supporting question:** How does the proportion of injured people vary across age groups among those involved in reported crashes?
 
-**Unit of analysis:** We will mainly look at  crash records, but we also plan to group them by date and road segment to see how crash patterns differ depending on the weather and location.
+4. **Supporting question:** Do injury proportions for different roadway user types vary between days with and without precipitation?
 
-**Scope:** Our project will focus on traffic crashes reported in Chicago between 2023 and 2024. We will use records that have enough information to connect them with the weather and road data. If some records are missing important details, we will look into those issues and explain how we handled them.
+**Unit of analysis:** We will mainly look at individual crash records and the people involved in each accident. For the first question, we will group crashes by date to see how the average number of crashes differs between days with and without precipitation. We will also use the People dataset to look at injuries among different groups of people.
 
-**Contribution of integration:** We need all three datasets because each one gives us a different part of the information. The crash data shows when and where accidents happened and whether anyone was injured. The NOAA data gives us information about the weather on those days, and the street data helps us identify where the crashes happened on Chicago's road network. Putting everything together will help us see how weather conditions and crash patterns are related across different parts of the city.
+**Scope:** Our project will focus on traffic crashes reported in Chicago from 2023 to 2024. We plan to use records that have enough information to connect the three datasets. Some records might have missing information, so we will check those cases and explain how we deal with them.
+
+**Contribution of integration:** Each dataset gives us different information that we need for our project. The crash data tells us when accidents happened, while the NOAA data shows the weather conditions on those days. The People dataset gives us more details about the people, such as their ages, whether they were drivers or passengers, and whether they were injured. By putting these datasets together, we can look at how weather conditions are related to the number of crashes and compare injuries among different groups of people.
 
 ## Datasets
 
