@@ -48,7 +48,7 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 **Scope:** Our project will focus on traffic crashes reported in Chicago from 2023 to 2024. We plan to use records that have enough information to connect the three datasets. Some records might have missing information, so we will check those cases and explain how we deal with them.
 
-**Contribution of integration:** Each dataset gives us different information that we need for our project. The crash data tells us when accidents happened. The NOAA data shows the weather conditions on those days. The People dataset gives us more details about the people, such as their ages, whether they were drivers or passengers, and whether they were injured. By putting these datasets together, we can look at how weather conditions are related to the number of crashes and compare injuries among different groups of people.
+**Contribution of integration:** Datasets give us information that we need for our project. The crash data tells us when accidents happened. The NOAA data shows the weather conditions on those days. The People dataset gives us details about the people, such as their ages, whether they were drivers or passengers, and whether they were injured. By putting these datasets together, we can look at how weather conditions are related to the number of crashes and compare injuries among different groups of people.
 
 ## Datasets
 
