@@ -29,10 +29,10 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 | Team Member | Proposed Role | Planned Responsibilities |
 | --- | --- | --- |
-| Eric Xu | Project coordination and integration | Track milestones, coordinate contributions, define integration keys, and combine the cleaned datasets. |
-| Jacob Lee | Data acquisition and provenance | Locate original sources, acquire data, and document collection methods, access dates, and reuse conditions. |
-| Yifei Zhang | Data cleaning and quality | Standardize variables, address missing values and duplicates, and document data quality checks. |
-| Jiacheng Lin | Analysis and communication | Develop visualizations, summarize findings, and coordinate the final report and presentation. |
+| Eric Xu | 。。。 | 。。。 |
+| Jacob Lee | 。。。 | 。。。 |
+| Yifei Zhang | 。。。 | 。。。 |
+| Jiacheng Lin | 。。。 | 。。。 |
 
 ## Research or Business Question(s)
 
