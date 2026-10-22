@@ -7,21 +7,21 @@
 
 ## Overview
 
-[Describe the overall project goal, why it matters, and the intended audience.]
 
-We aim to answer [main question] by integrating three complementary datasets about [topic] at the [unit of analysis] level, covering [geographic area] during [time period].
+For our project, we want to look at how daily weather conditions are related to traffic crashes and injuries in Chicago. Rain, snow, and extreme temperatures can affect driving conditions, so we thought it would be interesting to see whether traffic accidents happen more often or lead to more injuries under certain weather conditions. We also want to see if these patterns are different depending on where the accidents happen.
 
-Our planned approach is to:
-1. Identify appropriate original data sources and verify their provenance, access conditions, and reuse permissions.
-2. Acquire the datasets and document their structure, variables, and collection methods.
-3. Clean and standardize the data, including missing values, duplicates, identifiers, and inconsistent formats.
-4. Integrate the datasets using [shared identifiers or attributes].
-5. Analyze [key variables or relationships] and create visualizations that address our questions.
-6. Document the workflow, limitations, and findings so that others can reproduce the project.
+We plan to use three datasets: Chicago Traffic Crashes, NOAA Daily Weather, and Chicago Street Center Lines. We will focus on traffic accidents reported in Chicago between 2023 and 2024.
 
-**Expected outputs:** [Integrated dataset, data dictionary, reproducible scripts or notebooks, visualizations, and final report.]
+Our plan is to:
 
-*Keep the completed Overview at 250 words or fewer.*
+1. Download the three datasets from their official sources and review the information provided about them.
+2. Check the data for missing values, duplicates, and other possible issues.
+3. Clean the datasets and make sure the dates and locations are in consistent formats.
+4. Combine the weather and crash data using dates, and match crash locations with road segments.
+5. Compare the number of crashes and reported injuries under different weather conditions and across road segments.
+6. Keep track of our steps and explain how we handled the data so that someone else could repeat our work.
+
+By the end of the project, we hope to have a combined dataset, a data dictionary, visualizations, and code that can reproduce our results. Our main focus is making sure the data is collected, cleaned, and combined properly before looking at any patterns.
 
 ## Team
 
