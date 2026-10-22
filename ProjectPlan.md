@@ -36,13 +36,17 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 ## Research or Business Question(s)
 
-1. **Primary question:** [What main question will the integrated data answer?]
-2. **Supporting question:** [How does the outcome vary across groups, locations, or time periods?]
-3. **Supporting question:** [What relationship between variables from different datasets will be examined?]
+1. **Primary question:** How does the weather relate to traffic crashes and injuries on  roads in Chicago?
 
-**Unit of analysis:** [For example, one county per year.]  
-**Scope:** [Population, geography, time period, and inclusion/exclusion criteria.]  
-**Contribution of integration:** [Explain why answering these questions requires information from all three datasets.]
+2. **Supporting question:** Do we see more traffic crashes or injuries on rainy and snowy days compared to days with no rain or snow?
+
+3. **Supporting question:** Are there certain roads in Chicago where crashes happen more often, especially under different weather conditions?
+
+**Unit of analysis:** We will mainly look at  crash records, but we also plan to group them by date and road segment to see how crash patterns differ depending on the weather and location.
+
+**Scope:** Our project will focus on traffic crashes reported in Chicago between 2023 and 2024. We will use records that have enough information to connect them with the weather and road data. If some records are missing important details, we will look into those issues and explain how we handled them.
+
+**Contribution of integration:** We need all three datasets because each one gives us a different part of the information. The crash data shows when and where accidents happened and whether anyone was injured. The NOAA data gives us information about the weather on those days, and the street data helps us identify where the crashes happened on Chicago's road network. Putting everything together will help us see how weather conditions and crash patterns are related across different parts of the city.
 
 ## Datasets
 
