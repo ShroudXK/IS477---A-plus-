@@ -28,10 +28,12 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 | Team Member | Proposed Role | Planned responsibilities |
 | --- | --- | --- |
-| Eric Xu | Data Integration | Integrate the Crashes, People, and NOAA weather datasets using crash IDs and dates, validate the joins, and prepare analysis-ready tables with reproducible code.
+| Eric Xu | Data Integration | Integrate the Crashes, People, and NOAA weather datasets using crash IDs and dates, validate the joins, and prepare analysis-ready tables with reproducible code. |
 | Jacob Lee | Data Cleaning | Clean the datasets by handling missing values, removing duplicates, and fixing inconsistent formats to prepare the data for integration. |
 | Yifei Zhang | Data Quality Assessment |Assess the quality of the three datasets by checking accuracy, completeness, timeliness, and consistency. Identify missing values, duplicates, and inconsistencies before integration, and evaluate the quality of the combined dataset after integration.|
 | Jiacheng Lin | Final data report | Write the final data report, summarize the main findings, explain data cleaning and integration decisions, discuss constraints and limitations, and coordinate with teammates to review the report before submission.|
+
+In addition to these roles, each member will select one of the four research questions and complete its analysis, visualizations, and written findings. The team will coordinate selections so that each question has one lead.
 
 ## Research or Business Questions:
 
@@ -118,19 +120,19 @@ We will retain two analysis tables: a crash-level table with one row per crash a
 
 ## Timeline
 
-Dates and role assignments below are provisional. Replace the date placeholders with the course deadlines.
-
 | Target Completion | Task | Description / Deliverable | Responsible Member(s) |
 | --- | --- | --- | --- |
-| Week 1 — Oct. 30 | Confirm scope and requirements | Finalize questions, unit of analysis, roles, and the full assignment requirements checklist. | All members |
-| Week 1 — Oct. 30 | Verify dataset feasibility | Identify three sources; check access, provenance, reuse terms, coverage, and compatible linkage attributes. | Yifei; Eric |
-| Week 2 — Nov. 6 | Acquire and document data | Download the three datasets for 2023–2024, verify file integrity using SHA-256, and document sources and variable definitions. | All members |
-| Week 3 — Nov. 13 | Clean and validate data | Resolve format inconsistencies, duplicates, and missing values; document cleaning decisions and quality checks. | Yifei; Jacob |
-| Week 4 — Nov. 13 | Integrate datasets | Implement joins and verify matching rates, row counts, and the target unit of analysis. | Eric |
-| Week 5 — Nov. 20 | Analyze and visualize | Answer the research questions using appropriate summaries and visualizations. |All members |
-| Week 5 — Nov. 20 | Document and reproduce workflow | Complete the data dictionary, source citations, environment/dependency information, and rerun instructions. | Jiacheng; Eric |
-| Week 6 — Nov. 27 | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and any data-sharing restrictions. | All members |
-| Week 6 — Nov. 27 | Finalize and submit | Review findings, verify reproducibility, complete the report/presentation, and audit all course requirements. | All members |
+| Oct. 30 | Confirm scope and responsibilities | Finalize the scope, roles, and requirements checklist. Each member will select one of the four research questions, with one analysis lead per question. | All members |
+| Oct. 30 | Verify dataset feasibility | Check access, provenance, reuse terms, coverage, and compatible linkage fields. | Yifei; Eric |
+| Nov. 6 | Acquire and document data | Download the three datasets for 2023–2024, verify SHA-256 checksums, and document sources and variable definitions. | All members |
+| Nov. 13 | Assess source data quality | Before cleaning and integration, assess accuracy, completeness, timeliness, and consistency, and document the issues to address. | Yifei |
+| Nov. 13 | Clean datasets | Handle missing values, duplicates, invalid values, and inconsistent formats, and document cleaning decisions. | Jacob |
+| Nov. 13 | Integrate datasets | Join the cleaned datasets using crash IDs and dates, validate the joins, and prepare crash-level and person-level analysis tables. | Eric |
+| Nov. 13 | Assess integrated data quality | After integration, assess the four quality dimensions and review matching rates, row counts, and unmatched records with Eric. | Yifei |
+| Nov. 20 | Analyze and visualize | Each member will analyze their selected research question, create supporting tables and visualizations, and write up their methods and findings. | All members; one question per member |
+| Nov. 20 | Document and reproduce workflow | Complete the data dictionary, source citations, dependency information, automated workflow, and reproduction instructions. | Jiacheng; Eric |
+| Nov. 27 | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and data-sharing restrictions. | All members |
+| Nov. 27 | Complete the final report and submission | Jiacheng will compile the report from all members' contributions. The team will review findings, verify reproducibility, check course requirements, and finalize the submission. | Jiacheng; all members |
 
 ## Constraints
 
