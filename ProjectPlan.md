@@ -26,14 +26,14 @@ By the end of the project, we hope to have a combined dataset, a data dictionary
 
 The following roles are proposed and will be confirmed by the team. All members will review the integrated data, analysis, and final deliverables.
 
-| Team Member | Proposed Role | Planned Responsibilities |
-| --- | --- | --- |
-| Eric Xu | 。。。 | 。。。 |
-| Jacob Lee | 。。。 | 。。。 |
-| Yifei Zhang | 。。。 | 。。。 |
-| Jiacheng Lin | 。。。 | 。。。 |
+| Team Member | Proposed Role |
+| --- | --- |
+| Eric Xu | Data Integration |
+| Jacob Lee | Data Cleaning |
+| Yifei Zhang | 。。。 |
+| Jiacheng Lin | 。。。 |
 
-## Research or Business Question(s)
+## Research or Business Questions:
 
 1. **Primary question:** How does the average daily number of reported traffic crashes in Chicago differ between days with and without precipitation?
 
