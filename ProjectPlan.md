@@ -31,7 +31,7 @@ The following roles are proposed and will be confirmed by the team. All members 
 | Eric Xu | Data Integration | Integrate the Crashes, People, and NOAA weather datasets using crash IDs and dates, validate the joins, and prepare analysis-ready tables with reproducible code.
 | Jacob Lee | Data Cleaning | ... |
 | Yifei Zhang | Data Quality Assessment |Assess the quality of the three datasets by checking accuracy, completeness, timeliness, and consistency. Identify missing values, duplicates, and inconsistencies before integration, and evaluate the quality of the combined dataset after integration.|
-| Jiacheng Lin | 。。。 | ... |
+| Jiacheng Lin | Final data report | Write the final data report, summarize the main findings, explain data cleaning and integration decisions, discuss constraints and limitations, and coordinate with teammates to review the report before submission.|
 
 ## Research or Business Questions:
 
