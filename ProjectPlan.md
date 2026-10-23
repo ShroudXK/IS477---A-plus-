@@ -1,24 +1,23 @@
 # Project Plan
 
-**Project Title:** [Enter project title]  
+**Project Title:** Chicago Traffic Safety: Weather, Crash Frequency, and Injury Patterns  
 **Course:** IS 477  
 **Team:** Eric Xu, Jacob Lee, Yifei Zhang, Jiacheng Lin  
-**Status:** Initial framework; replace bracketed placeholders before submission.
 
 ## Overview
 
 
-For our project, we want to look at how daily weather conditions are related to traffic crashes and injuries in Chicago. Rain, snow, and extreme temperatures can affect driving conditions, so we thought it would be interesting to see whether traffic accidents happen more often or lead to more injuries under certain weather conditions. We also want to see whether these patterns differ by location.
+For our project, we want to look at how daily weather conditions are related to traffic crashes and injuries in Chicago. Rain, snow, and extreme temperatures can affect driving conditions, so we thought it would be interesting to see whether traffic accidents happen more often or lead to more injuries under certain weather conditions. We also want to see whether injury patterns differ by roadway user type and age group.
 
-We plan to use three datasets: Chicago Traffic Crashes, NOAA Daily Weather, and Chicago Traffic Crashes. We will focus on traffic accidents reported in Chicago between 2023 and 2024.
+We plan to use three datasets: Chicago Traffic Crashes - Crashes, NOAA Daily Weather, and Chicago Traffic Crashes - People. We will focus on traffic accidents reported in Chicago between 2023 and 2024.
 
 Our plan is to:
 
 1. Download the three datasets from their official sources and review the information provided about them.
 2. Check the data for missing values, duplicates, and other possible issues.
-3. Clean the datasets and make sure the dates and locations are in consistent formats.
-4. Combine the weather and crash data using dates, and match crash locations with road segments.
-5. Compare the number of crashes and reported injuries under different weather conditions and across road segments.
+3. Clean the datasets and make sure dates, identifiers, and categories are in consistent formats.
+4. Combine the People and Crashes datasets using crash IDs, then add daily weather observations using dates.
+5. Compare daily crash counts under different weather conditions and injury proportions across roadway user types and age groups.
 6. Track our steps and explain how we handled the data so anyone can repeat our work
 
 By the end of the project, we hope to have a combined dataset, a data dictionary, visualizations, and code that can reproduce our results. Our main focus is making sure the data is collected, cleaned, and combined properly before looking at any patterns.
@@ -52,28 +51,70 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 ## Datasets
 
-Use at least three distinct, complementary datasets that can be meaningfully integrated. Do not use Kaggle as a data source.
+We will use three complementary datasets covering January 1, 2023 through December 31, 2024. Together, they describe reported crashes, the people involved, and daily weather conditions. The two Chicago datasets provide different levels of detail, while NOAA adds independent weather measurements. All three can be acquired as tabular data and integrated using Python and pandas.
 
-| Detail | Dataset 1 | Dataset 2 | Dataset 3 |
-| --- | --- | --- | --- |
-| Dataset name | [Name] | [Name] | [Name] |
-| Original publisher and source URL | [Publisher; URL] | [Publisher; URL] | [Publisher; URL] |
-| Description and contribution | [Information provided; question supported] | [Different but related information; question supported] | [Different but related information; question supported] |
-| Key variables | [Variables] | [Variables] | [Variables] |
-| Unit of observation | [What one row represents] | [What one row represents] | [What one row represents] |
-| Geographic and temporal coverage | [Area; period] | [Area; period] | [Area; period] |
-| Format and access method | [CSV/API/etc.; access requirements] | [CSV/API/etc.; access requirements] | [CSV/API/etc.; access requirements] |
-| Linkage attributes | [Identifier(s), geography, and/or time] | [Identifier(s), geography, and/or time] | [Identifier(s), geography, and/or time] |
-| Provenance and reuse terms | [Collection method; license/terms] | [Collection method; license/terms] | [Collection method; license/terms] |
+### 1. Chicago Traffic Crashes - Crashes
 
-### Integration Plan
+**Source:** [Traffic Crashes - Crashes, Chicago Data Portal](https://data.cityofchicago.org/Transportation/Traffic-Crashes-Crashes/85ca-t3if/about_data)  
+**Publisher:** City of Chicago; data provided by the Chicago Police Department.  
+**Unit of observation:** One reported traffic crash.
 
-- **Target structure:** [What one row in the integrated dataset will represent.]
-- **Dataset 1 + Dataset 2:** Join on [exact columns] using a [join type]; expected relationship: [one-to-one/one-to-many/etc.].
-- **Combined data + Dataset 3:** Join on [exact columns] using a [join type]; expected relationship: [relationship].
-- **Preparation:** [Align geographic boundaries, time periods, identifier formats, units, and aggregation levels.]
-- **Validation:** Check key uniqueness, unmatched records, unexpected row duplication, and coverage before and after each join.
-- **Unmatched records:** [Explain how unmatched records will be investigated, retained, or excluded and how exclusions will be reported.]
+This dataset provides the time, location, circumstances, and reported outcomes of traffic crashes in Chicago. We will download records for 2023-2024 through the portal's API or CSV export.
+
+| Feature | Description and planned use |
+| --- | --- |
+| `CRASH_RECORD_ID` | Unique crash identifier; links each crash to records in the People dataset and supports counting distinct crashes. |
+| `CRASH_DATE` | Crash date and time; used to derive a calendar date for joining NOAA observations and calculating daily crash counts. |
+| `INJURIES_TOTAL`, `MOST_SEVERE_INJURY` | Crash-level injury outcomes; used to summarize reported injuries and compare them with person-level outcomes. |
+| `WEATHER_CONDITION` | Weather recorded in the crash report; provides context alongside NOAA's measured daily conditions. |
+| `LIGHTING_CONDITION`, `ROADWAY_SURFACE_COND` | Reported lighting and road-surface conditions; provide additional context for interpreting results. |
+| `CRASH_HOUR`, `CRASH_DAY_OF_WEEK` | Time-related features available for descriptive summaries of when crashes occur. |
+
+This dataset supports our primary question about average daily crash counts on days with and without precipitation. It also supplies the crash context needed to interpret injuries recorded in the People dataset.
+
+### 2. Chicago Traffic Crashes - People
+
+**Source:** [Traffic Crashes - People, Chicago Data Portal](https://data.cityofchicago.org/Transportation/Traffic-Crashes-People/u6pd-qa9d)  
+**Publisher:** City of Chicago; data provided by the Chicago Police Department.  
+**Unit of observation:** One person involved in a reported crash.
+
+This dataset describes drivers, passengers, pedestrians, cyclists, and other roadway users involved in crashes. It adds individual characteristics and injury outcomes that are not available at the same level of detail in the Crashes dataset. We will retrieve records for the same 2023-2024 period using the API or CSV export.
+
+| Feature | Description and planned use |
+| --- | --- |
+| `PERSON_ID` | Unique person-record identifier; supports person-level counting and duplicate checks. |
+| `CRASH_RECORD_ID` | Identifies the associated crash; used to join person records to the Crashes dataset. |
+| `PERSON_TYPE` | Roadway user category; used to compare drivers, passengers, pedestrians, and cyclists. |
+| `AGE` | Age of the person; used to create age groups and compare injury proportions. |
+| `INJURY_CLASSIFICATION` | Reported injury severity; used to calculate injury proportions among recorded people. |
+| `SAFETY_EQUIPMENT`, `AIRBAG_DEPLOYED` | Additional safety-related features available for supplementary descriptive summaries. |
+
+This dataset supports our questions about differences in injury proportions across roadway user types and age groups. After integration with crash dates and NOAA observations, it also allows comparisons of injury proportions across daily precipitation categories.
+
+### 3. NOAA Daily Weather - Chicago O'Hare
+
+**Source:** [NOAA GHCN Daily Summaries, Chicago O'Hare International Airport](https://www.ncei.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND%3AUSW00094846/detail)  
+**Data file:** [O'Hare Daily Summaries CSV](https://www.ncei.noaa.gov/data/daily-summaries/access/USW00094846.csv)  
+**Publisher:** NOAA National Centers for Environmental Information.  
+**Station:** `USW00094846`.  
+**Unit of observation:** One day of observations at the selected station in the Daily Summaries CSV.
+
+We will select daily observations for 2023-2024 from NOAA's Global Historical Climatology Network Daily dataset. These measurements add quantitative weather information to the crash and person records.
+
+| Feature | Description and planned use |
+| --- | --- |
+| `STATION`, `DATE` | Identify the station and observation date; `DATE` is the linkage field for the crash data. |
+| `PRCP` | Daily precipitation amount; the main weather variable used to distinguish days with and without measured precipitation. |
+| `SNOW`, `SNWD` | Daily snowfall and snow depth; available for supplementary weather descriptions. |
+| `TMAX`, `TMIN` | Daily maximum and minimum temperatures; available for descriptive summaries and temperature-based comparisons. |
+
+The main analysis will use `PRCP` to classify days by precipitation and compare average daily crash counts. The other weather features provide additional context without requiring a separate dataset.
+
+### How the Datasets Connect
+
+We will first join the People dataset to the Crashes dataset using `CRASH_RECORD_ID`. This is a many-to-one join from people to crashes: several people can belong to the same crash. We will then extract the calendar date from `CRASH_DATE` and join it to NOAA's `DATE`, with one weather record per station-day. Each person in the integrated table will therefore have their individual characteristics, the associated crash information, and the daily weather measurements.
+
+We will retain two analysis tables: a crash-level table with one row per crash and a person-level table with one row per person. The crash-level table will be aggregated by date and aligned with the full study calendar for daily crash comparisons. The person-level table will support injury comparisons by roadway user type, age group, and precipitation category. This structure allows all three datasets to contribute while preserving the correct counting unit for each research question.
 
 ## Timeline
 
