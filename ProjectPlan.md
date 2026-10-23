@@ -144,14 +144,14 @@ Dates and role assignments below are provisional. Replace the date placeholders 
 | Technical and interpretation limits | The team has limited time and computing resources. Differences in crash counts may also reflect traffic volume, holidays, or other factors beyond precipitation. Without traffic exposure data, crash counts cannot directly measure the risk of crashing per trip.| Keep the analysis focused on the research questions and the 2023–2024 period. Describe results as associations and avoid claiming that precipitation causes crashes or that one group is inherently less safe. |
 
 ## Gaps
+There are still a few areas that we need to explore as we move forward with our project.
 
-- [ ] Confirm the project topic, questions, and intended audience.
-- [ ] Confirm team roles and actual milestone dates.
-- [ ] Select three datasets and verify their original sources and reuse terms.
-- [ ] Inspect sample records to confirm shared identifiers and compatible coverage.
-- [ ] Decide how to handle missing data, unmatched records, and aggregation.
-- [ ] Select analysis methods and visualizations appropriate to the questions.
-- [ ] Review the full Requirements section referenced by the assignment; add any requirements not included in the provided instructions.
-- [ ] Identify questions requiring instructor or team input: [List questions].
+Weather Data Coverage: We need to confirm whether the NOAA weather dataset has complete daily observations for 2023–2024. Since we are using data from Chicago O'Hare International Airport, we also need to consider whether these observations accurately represent weather conditions across Chicago.
 
-This plan will evolve as we inspect the data and learn later course topics. We will update our plans for metadata, data quality, integration, ethical reuse, reproducibility, and long-term preservation or sharing as needed, recording major decisions in the repository.
+Data Quality: We have not fully assessed the quality of the three datasets. We need to check for missing values, duplicate records, and inconsistent information, especially in fields such as age, injury classification, and crash dates. We will then decide how to handle these issues.
+
+Data Integration: Although the Crashes and People datasets share CRASH_RECORD_ID, we still need to verify how many records can be successfully matched. We also need to confirm that the dates in the crash records align with the NOAA weather observations.
+
+Workflow and Reproducibility: We still need to decide how to organize our scripts and automate the entire process. As we learn more about workflow automation and metadata documentation in class, we will update our approach to make sure others can reproduce our results.
+
+We will continue to address these gaps as we work with the datasets and document any important decisions or changes in our GitHub repository.
