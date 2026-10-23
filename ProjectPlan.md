@@ -124,7 +124,7 @@ Dates and role assignments below are provisional. Replace the date placeholders 
 | --- | --- | --- | --- |
 | Week 1 — Oct. 30 | Confirm scope and requirements | Finalize questions, unit of analysis, roles, and the full assignment requirements checklist. | All members |
 | Week 1 — Oct. 30 | Verify dataset feasibility | Identify three sources; check access, provenance, reuse terms, coverage, and compatible linkage attributes. | Jacob; Eric |
-| Week 2 — Nov. 6 | Acquire and document data | Preserve raw files; record source URLs, retrieval dates, versions, and variable definitions. | Jacob |
+| Week 2 — Nov. 6 | Acquire and document data | Download the three datasets for 2023–2024, verify file integrity using SHA-256, and document sources and variable definitions. | Jacob |
 | Week 3 — Nov. 13 | Clean and validate data | Resolve format inconsistencies, duplicates, and missing values; document cleaning decisions and quality checks. | Yifei |
 | Week 4 — Nov. 13 | Integrate datasets | Implement joins and verify matching rates, row counts, and the target unit of analysis. | Eric; Yifei |
 | Week 5 — Nov. 20 | Analyze and visualize | Answer the research questions using appropriate summaries and visualizations. | Jiacheng; all members |
