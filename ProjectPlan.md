@@ -122,15 +122,15 @@ Dates and role assignments below are provisional. Replace the date placeholders 
 
 | Target Completion | Task | Description / Deliverable | Responsible Member(s) |
 | --- | --- | --- | --- |
-| Week 1 — [Date] | Confirm scope and requirements | Finalize questions, unit of analysis, roles, and the full assignment requirements checklist. | All members |
-| Week 1 — [Date] | Verify dataset feasibility | Identify three sources; check access, provenance, reuse terms, coverage, and compatible linkage attributes. | Jacob; Eric |
-| Week 2 — [Date] | Acquire and document data | Preserve raw files; record source URLs, retrieval dates, versions, and variable definitions. | Jacob |
-| Week 3 — [Date] | Clean and validate data | Resolve format inconsistencies, duplicates, and missing values; document cleaning decisions and quality checks. | Yifei |
-| Week 4 — [Date] | Integrate datasets | Implement joins and verify matching rates, row counts, and the target unit of analysis. | Eric; Yifei |
-| Week 5 — [Date] | Analyze and visualize | Answer the research questions using appropriate summaries and visualizations. | Jiacheng; all members |
-| Week 5 — [Date] | Document and reproduce workflow | Complete the data dictionary, source citations, environment/dependency information, and rerun instructions. | Jacob; Eric |
-| Week 6 — [Date] | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and any data-sharing restrictions. | All members |
-| Week 6 — [Date] | Finalize and submit | Review findings, verify reproducibility, complete the report/presentation, and audit all course requirements. | Jiacheng; all members |
+| Week 1 — Oct. 30 | Confirm scope and requirements | Finalize questions, unit of analysis, roles, and the full assignment requirements checklist. | All members |
+| Week 1 — Oct. 30 | Verify dataset feasibility | Identify three sources; check access, provenance, reuse terms, coverage, and compatible linkage attributes. | Jacob; Eric |
+| Week 2 — Nov. 6 | Acquire and document data | Preserve raw files; record source URLs, retrieval dates, versions, and variable definitions. | Jacob |
+| Week 3 — Nov. 13 | Clean and validate data | Resolve format inconsistencies, duplicates, and missing values; document cleaning decisions and quality checks. | Yifei |
+| Week 4 — Nov. 13 | Integrate datasets | Implement joins and verify matching rates, row counts, and the target unit of analysis. | Eric; Yifei |
+| Week 5 — Nov. 20 | Analyze and visualize | Answer the research questions using appropriate summaries and visualizations. | Jiacheng; all members |
+| Week 5 — Nov. 20 | Document and reproduce workflow | Complete the data dictionary, source citations, environment/dependency information, and rerun instructions. | Jacob; Eric |
+| Week 6 — Nov. 27 | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and any data-sharing restrictions. | All members |
+| Week 6 — Nov. 27 | Finalize and submit | Review findings, verify reproducibility, complete the report/presentation, and audit all course requirements. | Jiacheng; all members |
 
 ## Constraints
 
