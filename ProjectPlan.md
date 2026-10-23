@@ -127,10 +127,10 @@ Dates and role assignments below are provisional. Replace the date placeholders 
 | Week 2 — Nov. 6 | Acquire and document data | Download the three datasets for 2023–2024, verify file integrity using SHA-256, and document sources and variable definitions. | Jacob |
 | Week 3 — Nov. 13 | Clean and validate data | Resolve format inconsistencies, duplicates, and missing values; document cleaning decisions and quality checks. | Yifei |
 | Week 4 — Nov. 13 | Integrate datasets | Implement joins and verify matching rates, row counts, and the target unit of analysis. | Eric; Yifei |
-| Week 5 — Nov. 20 | Analyze and visualize | Answer the research questions using appropriate summaries and visualizations. |all members |
+| Week 5 — Nov. 20 | Analyze and visualize | Answer the research questions using appropriate summaries and visualizations. |All members |
 | Week 5 — Nov. 20 | Document and reproduce workflow | Complete the data dictionary, source citations, environment/dependency information, and rerun instructions. | Jacob; Eric |
 | Week 6 — Nov. 27 | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and any data-sharing restrictions. | All members |
-| Week 6 — Nov. 27 | Finalize and submit | Review findings, verify reproducibility, complete the report/presentation, and audit all course requirements. | all members |
+| Week 6 — Nov. 27 | Finalize and submit | Review findings, verify reproducibility, complete the report/presentation, and audit all course requirements. | All members |
 
 ## Constraints
 
