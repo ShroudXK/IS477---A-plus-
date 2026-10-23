@@ -26,12 +26,12 @@ By the end of the project, we hope to have a combined dataset, a data dictionary
 
 The following roles are proposed and will be confirmed by the team. All members will review the integrated data, analysis, and final deliverables.
 
-| Team Member | Proposed Role |
-| --- | --- |
-| Eric Xu | Data Integration |
-| Jacob Lee | Data Cleaning |
-| Yifei Zhang | 。。。 |
-| Jiacheng Lin | 。。。 |
+| Team Member | Proposed Role | Planned responsibilities |
+| --- | --- | --- |
+| Eric Xu | Data Integration | Integrate the Crashes, People, and NOAA weather datasets using crash IDs and dates, validate the joins, and prepare analysis-ready tables with reproducible code.
+| Jacob Lee | Data Cleaning | ... |
+| Yifei Zhang | 。。。 | ... |
+| Jiacheng Lin | 。。。 | ... |
 
 ## Research or Business Questions:
 
