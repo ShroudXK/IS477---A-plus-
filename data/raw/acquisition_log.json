@@ -1,0 +1,100 @@
+[
+  {
+    "filename": "crashes_2023_2024.csv",
+    "url": "https://data.cityofchicago.org/resource/85ca-t3if.csv",
+    "query_params": {
+      "$where": "crash_date between '2023-01-01T00:00:00' and '2024-12-31T23:59:59'",
+      "$order": "crash_record_id",
+      "$limit": 50000,
+      "$offset": 0
+    },
+    "downloaded_at_utc": "2026-11-16T18:15:06Z",
+    "row_count": 222810,
+    "byte_count": 123655101,
+    "pages": [
+      {
+        "offset": 0,
+        "row_count": 50000
+      },
+      {
+        "offset": 50000,
+        "row_count": 50000
+      },
+      {
+        "offset": 100000,
+        "row_count": 50000
+      },
+      {
+        "offset": 150000,
+        "row_count": 50000
+      },
+      {
+        "offset": 200000,
+        "row_count": 22810
+      }
+    ]
+  },
+  {
+    "filename": "people_2023_2024.csv",
+    "url": "https://data.cityofchicago.org/resource/u6pd-qa9d.csv",
+    "query_params": {
+      "$where": "crash_date between '2023-01-01T00:00:00' and '2024-12-31T23:59:59'",
+      "$order": "crash_record_id",
+      "$limit": 50000,
+      "$offset": 0
+    },
+    "downloaded_at_utc": "2026-11-16T18:19:30Z",
+    "row_count": 491892,
+    "byte_count": 151879452,
+    "pages": [
+      {
+        "offset": 0,
+        "row_count": 50000
+      },
+      {
+        "offset": 50000,
+        "row_count": 50000
+      },
+      {
+        "offset": 100000,
+        "row_count": 50000
+      },
+      {
+        "offset": 150000,
+        "row_count": 50000
+      },
+      {
+        "offset": 200000,
+        "row_count": 50000
+      },
+      {
+        "offset": 250000,
+        "row_count": 50000
+      },
+      {
+        "offset": 300000,
+        "row_count": 50000
+      },
+      {
+        "offset": 350000,
+        "row_count": 50000
+      },
+      {
+        "offset": 400000,
+        "row_count": 50000
+      },
+      {
+        "offset": 450000,
+        "row_count": 41892
+      }
+    ]
+  },
+  {
+    "filename": "noaa_usw00094846.csv",
+    "url": "https://www.ncei.noaa.gov/data/daily-summaries/access/USW00094846.csv",
+    "query_params": null,
+    "downloaded_at_utc": "2026-11-16T18:19:30Z",
+    "row_count": 29249,
+    "byte_count": 10969749
+  }
+]
