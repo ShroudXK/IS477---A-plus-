@@ -2,8 +2,7 @@
 
 ### Dataset Quality Assessment
 
-**Course:** IS477\
-**Prepared by:** Yifei Zhang\
+**Section Prepared by:** Yifei Zhang\
 **Role:** Assess the quality of the datasets\
 **Data:** Chicago traffic crashes, people involved in those crashes, and daily weather at O'Hare, 2023–2024\
 
