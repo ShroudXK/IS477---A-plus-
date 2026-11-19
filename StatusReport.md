@@ -80,13 +80,13 @@ Do not drop rows because a field is missing or a value looks wrong, and do not f
 The raw data are good enough to use for this project if these limits are respected and documented.
 
 # Data Cleaning
-**Responsible Member:** Jacob Lee
+**Responsible Members:** Jacob Lee (this section) and Ke (Eric) Xu (see [Data Cleaning (continued)](#data-cleaning-continued))
 
 ## Overview
 
-I cleaned the three datasets based on the issues identified in Yifei's data quality assessment. The main goal was to fix clearly incorrect values and keep as many records as possible. I also made sure the cleaned datasets could be connected through crash IDs and dates.
+I cleaned the three datasets based on the issues identified in Yifei's data quality assessment. The main goal was to fix clearly incorrect values and keep as many records as possible.
 
-I used Python and pandas for cleaning. The code is in clean_data.py.&#x20;
+I used Python and pandas for cleaning. The code is in clean_data.py.
 
 ## Chicago Crashes
 
@@ -129,6 +129,193 @@ I saved the cleaned datasets separately, so the original files would not be over
 Some issues cannot be resolved through cleaning alone. For example, 509 crashes have no matching People records, and some crash injury totals do not agree with the person-level records. These values were not changed because there was not enough information to determine which values were correct.
 
 The next step is to integrate the cleaned datasets and check whether the joins work correctly.
+
+# Data Cleaning (continued)
+**Responsible Member:** Ke (Eric) Xu
+
+## Why this section exists
+
+Before integrating the data, I checked Jacob's cleaning script, `scripts/clean_data.py`, against Yifei's quality assessment. The script runs from a fresh clone and keeps every record. All of Yifei's single-table counts reproduce: 17 zero coordinates, 2,239 missing coordinates after cleaning, 509 missing injury totals, 512 missing severities, 1 age of -59, 1,965 non-passenger ages of 0, 101 missing injury classifications, 731 weather days, 79 trace days and 260 wet days. However, I found six gaps that would have affected integration or reproducibility. I fixed them on top of Jacob's work. Each one is described below as problem, impact, fix, and result. Two of the fixes change Jacob's script, and I explain why for each.
+
+## 1. Cross-table problems were not handled
+
+- **Problem:** The cleaning did not check any of the problems in Section 4 of the quality assessment: crashes with no people, timestamp mismatches, injury total and severity mismatches, and unknown injuries. The overview also said the datasets had been checked to connect through crash IDs and dates, but the code did not do this check.
+- **Impact:** Integration would have joined the tables without knowing which crashes disagree between files. Injury rates and weather-by-day results could have silently used inconsistent records.
+- **Fix:** We decided to handle these problems in the integration step, where both tables are read together. `scripts/integrate_data.py` uses Yifei's exact rules (see [Data Integration](#data-integration)). I removed the unsupported sentence from the overview above.
+- **Result:** All six counts from Yifei's assessment are reproduced and flagged. The script stops if any count changes.
+
+## 2. The text "NA" was read as missing (change to Jacob's script)
+
+- **Problem:** `read_csv` used pandas' default rules. These rules turn literal text such as "NA" or "N/A" into missing values.
+- **Impact:** The People table had more missing values than Yifei measured: `hospital` +2,194, `ems_agency` +2,676, `drivers_license_class` +317, `ems_run_no` +258, `city` +4, `zipcode` +1. The fields used in our analysis (age and injury) were not affected, but the cleaned data did not agree with the quality assessment.
+- **Fix:** I added `keep_default_na=False, na_values=[""]` to `read_csv`, which is the same rule used in Yifei's script. Only truly empty cells are missing now.
+- **Result:** For every People column, the missing count now equals the blank count in the raw file. Row counts did not change. Age groups, the injured flag and the invalid-age flag are identical to before. The crashes output did not change at all (same SHA-256), because the Crashes file has no such text.
+
+## 3. IDs and ages were saved as decimals (change to Jacob's script)
+
+- **Problem:** Columns with some blank cells were stored as decimals, so `vehicle_id` was written as `1668221.0` and `age` as `54.0`.
+- **Impact:** A text join on `vehicle_id` would fail (`"1668221.0"` is not equal to `"1668221"`), and the ages looked wrong to readers. Our main key, `crash_record_id`, was not affected.
+- **Fix:** `crash_record_id`, `person_id` and `vehicle_id` are now read as text. `age` and `age_original` use pandas' nullable whole-number type (`Int64`), which allows blanks.
+- **Result:** The output now shows `1668221` and `54`. Age groups and all age counts are unchanged: 145,664 missing ages after cleaning (143,698 originally blank + 1,966 corrected) and 1,109 passengers aged 0 kept.
+
+## 4. Cleaning documentation was incomplete
+
+- **Problem:** The text did not give the run command, the output folder, or the meaning of the new columns. It also did not state the trace-day rule or the single-station limitation, both of which Yifei asked for.
+- **Impact:** A grader could not easily rerun the step or interpret the output columns.
+- **Fix:** I kept Jacob's paragraphs and added the table below.
+- **Result:** Every cleaning output and every added column is documented below.
+
+## 5. Large outputs were not git-ignored
+
+- **Problem:** `.gitignore` excluded only the raw CSV files.
+- **Impact:** The cleaned crashes file (135 MB) and people file (168 MB) are over GitHub's 100 MB limit, so an accidental `git add .` would have made the push fail.
+- **Fix:** I added `data/clean/*.csv` and `data/integrated/*.csv` to `.gitignore`. The small summary files and the 340-row review list are still committed.
+- **Result:** After a full run, `git status` is clean.
+
+## 6. Package versions were not pinned
+
+- **Problem:** `requirements.txt` listed `pandas` and `requests` without versions.
+- **Impact:** A grader would install whatever version is newest. A future change to a pandas default could alter the results or break the scripts.
+- **Fix:** I pinned the tested versions (pandas 3.1.1, numpy 2.5.5, requests 2.34.2 and their dependencies). The README now states Python 3.13 and the exact setup commands.
+- **Result:** A fresh clone with a new virtual environment reproduces the same output checksums.
+
+Yifei also suggested an optional flag for late police notifications. We skipped it because all of our analysis uses `crash_date`, not the notification date.
+
+## Outputs and new columns
+
+Run with `python scripts/clean_data.py` after `python scripts/download_data.py`, or run everything with `python scripts/run_all.py`. The outputs go to `data/clean/`:
+
+| File | Rows | Contents |
+| --- | ---: | --- |
+| `crashes_clean.csv` | 222,810 | All original crash columns, plus the new columns below |
+| `people_clean.csv` | 491,892 | All original people columns, plus the new columns below |
+| `weather_clean.csv` | 731 | O'Hare daily weather for 2023-01-01 to 2024-12-31 |
+| `cleaning_summary.json` | – | Input and output SHA-256 values and all cleaning counts |
+
+| Table | New or changed column | Meaning |
+| --- | --- | --- |
+| crashes | `crash_day` | Calendar date of `crash_date` (YYYY-MM-DD), used to join weather |
+| crashes | `invalid_coordinates` | True if the raw coordinates were (0, 0); these were set to missing (17) |
+| crashes | `missing_coordinates` | True if latitude or longitude is missing after cleaning (2,239) |
+| crashes | `injury_total_missing` | True if `injuries_total` is blank (509); not replaced with 0 |
+| crashes | `severity_missing` | True if `most_severe_injury` is blank (512) |
+| people | `person_crash_day` | Calendar date of the People file's own `crash_date` |
+| people | `age` | Age as a whole number; -59 and non-passenger 0 were set to missing |
+| people | `age_original` | Age as recorded, before the correction |
+| people | `invalid_age` | True if the age was corrected to missing (1,966) |
+| people | `age_group` | 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+, or Unknown |
+| people | `injured` | 1 = any injury, 0 = no indication of injury, blank = unknown (101) |
+| weather | `prcp_mm` | Precipitation in mm (raw tenths of mm ÷ 10) |
+| weather | `tmax_c`, `tmin_c` | Maximum and minimum temperature in °C (raw tenths ÷ 10) |
+| weather | `snow_mm`, `snwd_mm` | Snowfall and snow depth in mm (already in mm) |
+| weather | `prcp_trace` | True if NOAA marked a trace of precipitation (`T`); 79 days |
+| weather | `wet_day` | 1 if `prcp_mm` > 0 (260 days), else 0 |
+
+**Trace-day rule:** A trace day has numeric precipitation of 0 and a `T` flag. We keep the value at 0 and set `prcp_trace` to True. Because `wet_day` is defined as `prcp_mm > 0`, **trace days count as dry days** (79 of the 471 dry days).
+
+**Single-station caveat:** All weather comes from one station at O'Hare Airport (`USW00094846`). We use it as a city-wide daily summary. It does not describe the exact weather at the time or street of each crash.
+
+# Data Integration
+**Responsible Member:** Ke (Eric) Xu
+
+## Goal and approach
+
+Integration combines the three cleaned tables so that each research question can be answered at the correct counting unit. Following Yifei's recommendations, the integration keeps every crash and every person, uses the Crashes date to assign weather, and builds three separate tables: person-level, crash-level, and daily. It does not delete or overwrite any value. Problems are marked with flags instead.
+
+The script is [`scripts/integrate_data.py`](scripts/integrate_data.py), written in Python with pandas. It reads the outputs of the cleaning step from `data/clean/` and writes to `data/integrated/`. If the cleaning step has not been run, it stops with a message saying so.
+
+## Integration schema
+
+```mermaid
+erDiagram
+    CRASHES ||--o{ PEOPLE : "crash_record_id"
+    WEATHER ||--o{ CRASHES : "date = crash_day"
+    CRASHES {
+        string crash_record_id PK
+        datetime crash_date
+        date crash_day
+    }
+    PEOPLE {
+        string person_id PK
+        string crash_record_id FK
+        datetime person_crash_date
+    }
+    WEATHER {
+        date date PK
+        float prcp_mm
+        int wet_day
+    }
+```
+
+1. **People → Crashes** on `crash_record_id`. This is a many-to-one join, because several people can be in one crash. pandas checks the join type with `validate="many_to_one"`.
+2. **Crashes → Weather** on `crash_day = date`. This is also many-to-one: one O'Hare weather row per day. People get their weather through their crash's official `crash_day`, not through their own timestamp.
+3. **Daily table:** crashes are counted per day, then joined onto the 731-day weather calendar, so that every day in 2023–2024 appears even if it has no crashes.
+
+## Cross-table problems
+
+The script checks each problem using the same rules as Yifei's assessment script. It asserts the expected count and stops with "CHECK FAILED" if the count is different.
+
+| Problem | Impact if ignored | Fix | Result |
+| --- | --- | --- | --- |
+| **Crashes with no people** | Treating them as zero injuries would understate injury rates. | Keep these crashes in crash counts and daily totals. `has_people` = False, and the people counts stay blank (unknown), not 0. | 509 crashes (0.23%), the same 509 with blank `injuries_total` |
+| **X2: different timestamps for the same crash** | A person could be assigned the weather of the wrong day. | Keep both timestamps: `crash_date` from Crashes and `person_crash_date` from People. Flag them with `date_mismatch` and, when the calendar day differs, `day_mismatch`. Use the Crashes date as the official day for weather. | 49 people in 25 crashes; 29 people (in 16 crashes) differ by calendar day. All matched Yifei. |
+| **X3: `injuries_total` does not match the number of injured people** | Injury counts would depend on which file is used. | Keep both values, `injuries_total` and `injured_people`. Flag them with `injury_total_mismatch` and add them to the review list. Neither file is used to correct the other. | 240 of 222,301 comparable crashes, matching Yifei. In all 240, the People file has more injured people than the crash total. |
+| **X4: `most_severe_injury` does not match the people** | Severity summaries would disagree between tables. | Add `people_most_severe` (the most severe person in the crash). Flag disagreements with `severity_mismatch`, and blank severity with people listed with `severity_blank_with_people`. | 3 disagreements + 3 blank-with-people, matching Yifei. The other 509 blank severities are the crashes with no people. |
+| **X5: people with unknown injury** | Counting unknowns as "not injured" would bias injury proportions downward. | Count only known injuries: `injured_people` counts people with `injured` = 1, and `unknown_injury_people` counts blanks. Flag crashes with `has_unknown_injury`. | 101 people in 76 crashes, matching Yifei |
+
+All flagged crashes, 340 in total, are saved to `data/integrated/cross_table_review.csv`. For each crash, the file holds both files' values side by side for manual review. It is small, so it is committed to the repository.
+
+## Output tables
+
+| File (in `data/integrated/`) | Rows | Columns | Unit and use |
+| --- | ---: | ---: | --- |
+| `person_level.csv` | 491,892 | 27 | One row per person. Used for injury proportions by person type, age group, and wet or dry day (questions 2–4). |
+| `crash_level.csv` | 222,810 | 47 | One row per crash, with people summary, flags, and weather |
+| `daily.csv` | 731 | 13 | One row per day, with crash counts and weather. Used for crashes on wet vs. dry days (question 1). |
+| `cross_table_review.csv` | 340 | 16 | Crashes with any cross-table flag |
+| `integration_summary.json` | – | – | Row counts, match rates, flag counts, and input and output SHA-256 values |
+
+Columns added by integration:
+
+| Table | Column | Meaning |
+| --- | --- | --- |
+| crash, person, daily | `prcp_mm`, `tmax_c`, `tmin_c`, `snow_mm`, `snwd_mm`, `prcp_trace`, `wet_day` | O'Hare weather for the official crash day |
+| crash | `has_people` | True if the crash has at least one People row |
+| crash | `person_count` | Number of people in the crash (blank if none are listed) |
+| crash | `injured_people` | People with a known injury (`injured` = 1) |
+| crash | `known_injury_people`, `unknown_injury_people` | People with a known or unknown injury status |
+| crash | `people_most_severe` | Most severe injury among the crash's people |
+| crash, person | `date_mismatch`, `day_mismatch` | Timestamp differs between files, or the calendar day differs (X2) |
+| crash | `injury_total_mismatch`, `severity_mismatch`, `severity_blank_with_people`, `has_unknown_injury` | Flags for X3, X4 and X5 |
+| person | `person_crash_date` | The People file's own timestamp, renamed from `crash_date` |
+| person | `crash_date`, `crash_day`, `weather_condition`, `lighting_condition`, `roadway_surface_cond` | Official crash time and conditions from Crashes |
+| daily | `crash_count`, `crashes_without_people`, `person_count`, `injured_people`, `unknown_injury_people` | Daily totals |
+
+## Integration checks
+
+These checks run every time the script runs. They give first evidence that the integration worked, and the post-integration quality assessment will build on them.
+
+| Check | Result |
+| --- | --- |
+| People matched to a crash | 491,892 / 491,892 (100%) |
+| Crashes with at least one person | 222,301 / 222,810 (99.77%) |
+| Crashes matched to a weather day | 222,810 / 222,810 (100%) |
+| Weather days with at least one crash | 731 / 731 |
+| Rows kept | All crashes and all people, with no duplicates created by the joins |
+| Daily totals | Sum to exactly 222,810 crashes and 491,892 people |
+| Person weather day | Always equals the official Crashes day |
+| Injured flag | Agrees with `injury_classification` for every person whose injury is known |
+
+## Why pandas and not OpenRefine
+
+The integration step is made of joins, group-by counts and checks across two large tables (222,810 and 491,892 rows). pandas does this in one script that runs in about 10 seconds with no manual steps. OpenRefine is designed for interactive cleaning of one table at a time. Using it here would add a manual import and export step, which would break our one-command workflow, so we did not use it.
+
+## Limitations
+
+- Weather comes from one airport station and is daily. It is not the weather at the crash location or time.
+- 509 crashes have no people. Their injury outcome is unknown, so they count in crash totals but not in injury proportions.
+- The flagged disagreements (340 crashes, 0.15%) are kept as recorded. We cannot tell which file is correct, so the analysis should report results with and without flagged crashes if they matter.
+- `crash_level.csv` (102 MB) and `person_level.csv` (173 MB) are too large for GitHub. They are regenerated by the workflow, and a copy of the cleaned data is on Box (see README).
 
 ### Final Data Report
 

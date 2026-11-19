@@ -59,32 +59,57 @@ All members will also review the integrated data, analysis, and final deliverabl
 
 ## Workflow
 
-The planned workflow is:
+The workflow is a chain of separate, single-purpose scripts, run in this order by [`scripts/run_all.py`](scripts/run_all.py):
 
-1. Acquire the datasets from their official sources.
-2. Verify SHA-256 checksums of the downloaded files.
-3. Assess data quality.
-4. Clean the datasets.
-5. Integrate the cleaned datasets and check quality again after the joins.
-6. Analyze the research questions and document the work.
+| Step | Script | Input | Output |
+| --- | --- | --- | --- |
+| 1. Acquire and verify | [`scripts/download_data.py`](scripts/download_data.py) | Box snapshot | `data/raw/*.csv` (SHA-256 checked) |
+| 2. Assess quality | [`scripts/Data quality Assessment.py`](scripts/Data%20quality%20Assessment.py) | `data/raw/` | Printed quality report (read-only) |
+| 3. Clean | [`scripts/clean_data.py`](scripts/clean_data.py) | `data/raw/` | `data/clean/` + `cleaning_summary.json` |
+| 4. Integrate | [`scripts/integrate_data.py`](scripts/integrate_data.py) | `data/clean/` | `data/integrated/` + `integration_summary.json` |
+| 5. Analyze | to be added | `data/integrated/` | results |
 
-## Planned repository structure
+Steps 3 and 4 check their own results (row counts, join match rates, and the cross-table counts from the quality assessment) and stop with an error if anything is different. The details are in [`StatusReport.md`](StatusReport.md): see the Data Cleaning, Data Cleaning (continued), and Data Integration sections.
+
+## How to reproduce
+
+The workflow was tested with **Python 3.13** on Linux. Package versions are pinned in [`requirements.txt`](requirements.txt). From a terminal:
 
 ```
-README.md           Project introduction (the final report will later be written here)
-ProjectPlan.md      Project plan
-StatusReport.md     Interim status report
-scripts/            Code for acquisition, quality checks, cleaning, integration, and analysis
-data/raw/           Checksums and download log; raw CSVs are downloaded here by scripts/download_data.py (not committed)
-data/clean/         Cleaned tables; large CSV files are not committed
-data/integrated/    Combined, analysis-ready tables; large CSV files are not committed
-reports/            Quality, cleaning, and integration reports
-docs/               Source notes and related documentation
+git clone https://github.com/ShroudXK/IS477---A-plus-.git
+cd IS477---A-plus-
+python3 -m venv .venv               # use Python 3.13
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python scripts/run_all.py
+```
+
+No other steps or edits are needed. All paths are relative to the project folder. The full run takes about one minute, most of it downloading about 400 MB from Box. Each step can also be run on its own in the order above, for example `python scripts/integrate_data.py`.
+
+**Cleaned data on Box (optional).** For convenience, a copy of the cleaned tables is in the Box folder [IS477_clean_data](https://uofi.box.com/s/fkrjtcdoowhcme7po5cvf3kdi145cld0). You do not need it to reproduce our results, because `scripts/clean_data.py` regenerates the same files. Compare them with the SHA-256 values in [`data/clean/cleaning_summary.json`](data/clean/cleaning_summary.json).
+
+## Repository structure
+
+```
+README.md              Project introduction (the final report will later be written here)
+ProjectPlan.md         Project plan
+StatusReport.md        Interim status report (quality assessment, cleaning, integration)
+requirements.txt       Pinned Python packages
+scripts/
+  run_all.py                    Runs the whole workflow in order
+  download_data.py              Step 1: download raw data from Box and check SHA-256
+  Data quality Assessment.py    Step 2: quality assessment of the raw data
+  clean_data.py                 Step 3: cleaning
+  integrate_data.py             Step 4: integration and cross-table checks
+data/raw/              Checksums and download log; raw CSVs are downloaded here (not committed)
+data/clean/            Cleaned tables (CSVs not committed) and cleaning_summary.json
+data/integrated/       person_level, crash_level, and daily tables (CSVs not committed),
+                       cross_table_review.csv, and integration_summary.json
 ```
 
 ## Current status
 
-This project is in the interim stage (Milestone 3). The project plan is in [`ProjectPlan.md`](ProjectPlan.md). An interim status report has been started in [`StatusReport.md`](StatusReport.md) and is still being written. Work on data acquisition, quality assessment, cleaning, and integration is in progress. Analysis, final documentation, and the final report will come later.
+This project is in the interim stage (Milestone 3). The project plan is in [`ProjectPlan.md`](ProjectPlan.md), and the interim status report is in [`StatusReport.md`](StatusReport.md). Data acquisition, quality assessment, cleaning, and integration are finished and run end to end with `scripts/run_all.py`. The post-integration quality assessment, the analysis, the final documentation, and the final report will come next.
 
 ## Data terms
 
