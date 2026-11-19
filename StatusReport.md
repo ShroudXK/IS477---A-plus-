@@ -130,3 +130,8 @@ Some issues cannot be resolved through cleaning alone. For example, 509 crashes 
 
 The next step is to integrate the cleaned datasets and check whether the joins work correctly.
 
+### Final Data Report
+
+**Responsible Member:** Jiacheng Lin
+
+I am responsible for writing the final data report for our study of Chicago traffic crashes and daily weather in 2023–2024. So far, I have reviewed the team's data quality and cleaning sections and identified two decisions the report needs to explain: why crashes without matching person records still count toward daily crash totals, and why missing injury information should not be treated as “no injury.” I will incorporate the findings for all four research questions once the team has verified the joins and finalized the tables and figures.
