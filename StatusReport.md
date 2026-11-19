@@ -80,7 +80,7 @@ Do not drop rows because a field is missing or a value looks wrong, and do not f
 The raw data are good enough to use for this project if these limits are respected and documented.
 
 # Data Cleaning
-**Responsible Members:** Jacob Lee (this section) and Ke (Eric) Xu (see [Data Cleaning (continued)](#data-cleaning-continued))
+**Responsible Members:** Jacob Lee (this section) and Eric Xu (see [Data Cleaning (continued)](#data-cleaning-continued))
 
 ## Overview
 
@@ -131,7 +131,7 @@ Some issues cannot be resolved through cleaning alone. For example, 509 crashes 
 The next step is to integrate the cleaned datasets and check whether the joins work correctly.
 
 # Data Cleaning (continued)
-**Responsible Member:** Ke (Eric) Xu
+**Responsible Member:** Eric Xu
 
 ## Why this section exists
 
@@ -216,15 +216,15 @@ Run with `python scripts/clean_data.py` after `python scripts/download_data.py`,
 **Single-station caveat:** All weather comes from one station at O'Hare Airport (`USW00094846`). We use it as a city-wide daily summary. It does not describe the exact weather at the time or street of each crash.
 
 # Data Integration
-**Responsible Member:** Ke (Eric) Xu
+**Responsible Member:** Eric Xu
 
-## Goal and approach
+## What was done
 
 Integration combines the three cleaned tables so that each research question can be answered at the correct counting unit. Following Yifei's recommendations, the integration keeps every crash and every person, uses the Crashes date to assign weather, and builds three separate tables: person-level, crash-level, and daily. It does not delete or overwrite any value. Problems are marked with flags instead.
 
-The script is [`scripts/integrate_data.py`](scripts/integrate_data.py), written in Python with pandas. It reads the outputs of the cleaning step from `data/clean/` and writes to `data/integrated/`. If the cleaning step has not been run, it stops with a message saying so.
+The work is in [`scripts/integrate_data.py`](scripts/integrate_data.py), written in Python with pandas. It reads the cleaned files from `data/clean/` and writes to `data/integrated/`. If the cleaning step has not been run, it stops with a message saying so. The full workflow, including this step, is run by [`scripts/run_all.py`](scripts/run_all.py). The counts below come from `data/integrated/integration_summary.json` after a complete run.
 
-## Integration schema
+### Join keys
 
 ```mermaid
 erDiagram
@@ -251,21 +251,7 @@ erDiagram
 2. **Crashes → Weather** on `crash_day = date`. This is also many-to-one: one O'Hare weather row per day. People get their weather through their crash's official `crash_day`, not through their own timestamp.
 3. **Daily table:** crashes are counted per day, then joined onto the 731-day weather calendar, so that every day in 2023–2024 appears even if it has no crashes.
 
-## Cross-table problems
-
-The script checks each problem using the same rules as Yifei's assessment script. It asserts the expected count and stops with "CHECK FAILED" if the count is different.
-
-| Problem | Impact if ignored | Fix | Result |
-| --- | --- | --- | --- |
-| **Crashes with no people** | Treating them as zero injuries would understate injury rates. | Keep these crashes in crash counts and daily totals. `has_people` = False, and the people counts stay blank (unknown), not 0. | 509 crashes (0.23%), the same 509 with blank `injuries_total` |
-| **X2: different timestamps for the same crash** | A person could be assigned the weather of the wrong day. | Keep both timestamps: `crash_date` from Crashes and `person_crash_date` from People. Flag them with `date_mismatch` and, when the calendar day differs, `day_mismatch`. Use the Crashes date as the official day for weather. | 49 people in 25 crashes; 29 people (in 16 crashes) differ by calendar day. All matched Yifei. |
-| **X3: `injuries_total` does not match the number of injured people** | Injury counts would depend on which file is used. | Keep both values, `injuries_total` and `injured_people`. Flag them with `injury_total_mismatch` and add them to the review list. Neither file is used to correct the other. | 240 of 222,301 comparable crashes, matching Yifei. In all 240, the People file has more injured people than the crash total. |
-| **X4: `most_severe_injury` does not match the people** | Severity summaries would disagree between tables. | Add `people_most_severe` (the most severe person in the crash). Flag disagreements with `severity_mismatch`, and blank severity with people listed with `severity_blank_with_people`. | 3 disagreements + 3 blank-with-people, matching Yifei. The other 509 blank severities are the crashes with no people. |
-| **X5: people with unknown injury** | Counting unknowns as "not injured" would bias injury proportions downward. | Count only known injuries: `injured_people` counts people with `injured` = 1, and `unknown_injury_people` counts blanks. Flag crashes with `has_unknown_injury`. | 101 people in 76 crashes, matching Yifei |
-
-All flagged crashes, 340 in total, are saved to `data/integrated/cross_table_review.csv`. For each crash, the file holds both files' values side by side for manual review. It is small, so it is committed to the repository.
-
-## Output tables
+### Output tables
 
 | File (in `data/integrated/`) | Rows | Columns | Unit and use |
 | --- | ---: | ---: | --- |
@@ -291,9 +277,9 @@ Columns added by integration:
 | person | `crash_date`, `crash_day`, `weather_condition`, `lighting_condition`, `roadway_surface_cond` | Official crash time and conditions from Crashes |
 | daily | `crash_count`, `crashes_without_people`, `person_count`, `injured_people`, `unknown_injury_people` | Daily totals |
 
-## Integration checks
+### Match rates and checks
 
-These checks run every time the script runs. They give first evidence that the integration worked, and the post-integration quality assessment will build on them.
+These checks run every time the script runs. The script stops with an error if any count is different from the expected value.
 
 | Check | Result |
 | --- | --- |
@@ -306,16 +292,41 @@ These checks run every time the script runs. They give first evidence that the i
 | Person weather day | Always equals the official Crashes day |
 | Injured flag | Agrees with `injury_classification` for every person whose injury is known |
 
-## Why pandas and not OpenRefine
+### Cross-table problems (X2–X5)
+
+The script checks each problem using the same rules as Yifei's assessment script. It asserts the expected count and stops with "CHECK FAILED" if the count is different.
+
+| Problem | Impact if ignored | Fix | Result |
+| --- | --- | --- | --- |
+| **Crashes with no people** | Treating them as zero injuries would understate injury rates. | Keep these crashes in crash counts and daily totals. `has_people` = False, and the people counts stay blank (unknown), not 0. | 509 crashes (0.23%), the same 509 with blank `injuries_total` |
+| **X2: different timestamps for the same crash** | A person could be assigned the weather of the wrong day. | Keep both timestamps: `crash_date` from Crashes and `person_crash_date` from People. Flag them with `date_mismatch` and, when the calendar day differs, `day_mismatch`. Use the Crashes date as the official day for weather. | 49 people in 25 crashes; 29 people (in 16 crashes) differ by calendar day. All matched Yifei. |
+| **X3: `injuries_total` does not match the number of injured people** | Injury counts would depend on which file is used. | Keep both values, `injuries_total` and `injured_people`. Flag them with `injury_total_mismatch` and add them to the review list. Neither file is used to correct the other. | 240 of 222,301 comparable crashes, matching Yifei. In all 240, the People file has more injured people than the crash total. |
+| **X4: `most_severe_injury` does not match the people** | Severity summaries would disagree between tables. | Add `people_most_severe` (the most severe person in the crash). Flag disagreements with `severity_mismatch`, and blank severity with people listed with `severity_blank_with_people`. | 3 disagreements + 3 blank-with-people, matching Yifei. The other 509 blank severities are the crashes with no people. |
+| **X5: people with unknown injury** | Counting unknowns as "not injured" would bias injury proportions downward. | Count only known injuries: `injured_people` counts people with `injured` = 1, and `unknown_injury_people` counts blanks. Flag crashes with `has_unknown_injury`. | 101 people in 76 crashes, matching Yifei |
+
+All flagged crashes, 340 in total, are saved to `data/integrated/cross_table_review.csv`. For each crash, the file holds both files' values side by side for later review. It is small, so it is committed to the repository.
+
+### Why pandas and not OpenRefine
 
 The integration step is made of joins, group-by counts and checks across two large tables (222,810 and 491,892 rows). pandas does this in one script that runs in about 10 seconds with no manual steps. OpenRefine is designed for interactive cleaning of one table at a time. Using it here would add a manual import and export step, which would break our one-command workflow, so we did not use it.
 
-## Limitations
+## What is not done yet
 
-- Weather comes from one airport station and is daily. It is not the weather at the crash location or time.
-- 509 crashes have no people. Their injury outcome is unknown, so they count in crash totals but not in injury proportions.
-- The flagged disagreements (340 crashes, 0.15%) are kept as recorded. We cannot tell which file is correct, so the analysis should report results with and without flagged crashes if they matter.
-- `crash_level.csv` (102 MB) and `person_level.csv` (173 MB) are too large for GitHub. They are regenerated by the workflow, and a copy of the cleaned data is on Box (see README).
+The joins themselves are finished and can be reproduced with `python scripts/run_all.py`. The following course items are still outstanding:
+
+- **Post-integration four-dimension quality assessment.** Yifei's assessment covers the raw files (accuracy, completeness, timeliness, and consistency). The integration script checks row counts, join match rates, and the cross-table flag counts, but we have not yet written a four-dimension quality assessment of the integrated tables.
+- **Analysis.** There is no analysis script yet, and we have not answered the four research questions. Step 5 in the README is still marked "to be added."
+- **Metadata / data dictionary.** New columns are listed in this report, but the project does not yet have a standalone data dictionary for the cleaned or integrated tables (variable names, types, units, and missing-value codes).
+- **Final data report.** This is in progress in the section below, led by Jiacheng Lin, and will be completed after the tables and figures are finalized.
+
+## Future work and improvements
+
+- Write the post-integration quality assessment from the integrated tables and the flags already produced, then add a data dictionary that a reader can use without reading the scripts.
+- Add analysis scripts that read `daily.csv` (question 1) and `person_level.csv` (questions 2–4) and write the results in a reproducible way, with no manual steps.
+- In the analysis, keep the known limitations in view: weather is a daily reading from one O'Hare station, not the weather at the crash location or time; 509 crashes have no people, so they should count in crash totals but not in injury proportions; and the 340 flagged disagreements (0.15% of crashes) are kept as recorded, because we cannot tell which file is correct. Results that use injury or date fields should be reported with and without the flagged crashes if the difference matters.
+- `crash_level.csv` (102 MB) and `person_level.csv` (173 MB) are too large for GitHub. They are regenerated by the workflow. A copy of the cleaned data is on Box (see README); the integrated tables are produced locally by the script.
+
+---
 
 ### Final Data Report
 

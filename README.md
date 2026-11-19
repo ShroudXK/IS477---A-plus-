@@ -50,7 +50,7 @@ This script downloads the files from Box into `data/raw/` and verifies every SHA
 
 | Team member | Role |
 | --- | --- |
-| Eric Xu | Data Integration |
+| Eric Xu | Data Cleaning (continued); Data Integration |
 | Jacob Lee | Data Cleaning |
 | Yifei Zhang | Data Quality Assessment |
 | Jiacheng Lin | Final data report |
