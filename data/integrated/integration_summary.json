@@ -1,0 +1,39 @@
+{
+  "inputs_sha256": {
+    "crashes_clean.csv": "5fa289caccd4e639f3e2da2a9df8c9e48ba8d8a41682ff872dcf4e724785828d",
+    "people_clean.csv": "c9522eca08262f3cbc3fce390f2d26b7ceed2b6916c7dd5656266b5de6594f3c",
+    "weather_clean.csv": "5e812f567b797ee093d170c391a0fbb943a1572ad32c962dfa52bb84f1f44706"
+  },
+  "row_counts": {
+    "person_level.csv": 491892,
+    "crash_level.csv": 222810,
+    "daily.csv": 731,
+    "cross_table_review.csv": 340
+  },
+  "match_rates": {
+    "people_matched_to_crash": "491892 / 491892",
+    "crashes_with_people": "222301 / 222810",
+    "crashes_matched_to_weather_day": "222810 / 222810",
+    "weather_days_with_crashes": "731 / 731"
+  },
+  "cross_table_flags": {
+    "crashes_without_people": 509,
+    "timestamp_mismatch_people": 49,
+    "timestamp_mismatch_crashes": 25,
+    "day_mismatch_people": 29,
+    "day_mismatch_crashes": 16,
+    "injury_total_mismatch_crashes": 240,
+    "injury_total_compared_crashes": 222301,
+    "severity_mismatch_crashes": 3,
+    "severity_blank_with_people_crashes": 3,
+    "crashes_with_unknown_injury": 76,
+    "people_with_unknown_injury": 101,
+    "crashes_in_review_list": 340
+  },
+  "outputs_sha256": {
+    "person_level.csv": "ded0fd131f1a52a30d658da2026fc34ef84e215622d63479191c168f8db7def1",
+    "crash_level.csv": "c7925d21a640de74bcfe2d70f089628b63e0b7ed47f2a665460c5128cbed9211",
+    "daily.csv": "525ebe1f52705c0c4c9ba5fe2141672beef0cf7efb2d6e23ab47e56656b4f572",
+    "cross_table_review.csv": "591c67fac0478771cf92f8dfb7eb19c234d5ce6c873f5ff9b0e7f3510ae9c0d4"
+  }
+}

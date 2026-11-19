@@ -1,0 +1,46 @@
+{
+  "source": "Yifei Zhang's dataset quality assessment (2023-2024)",
+  "input_sha256": {
+    "crashes_2023_2024.csv": "0e5fa1cce0fd16a169df39e81a09556db08a00ca0f22417b0d9390d830023490",
+    "people_2023_2024.csv": "85157f9c76e86721cf4684293ac9cd29abd8a795803704fd6dea6b7886a39fdf",
+    "noaa_usw00094846.csv": "b271731e860445557fe66acd33400aea0e5755b955fd5118f0368d0d31c3adcf"
+  },
+  "datasets": {
+    "crashes": {
+      "rows_before": 222810,
+      "rows_after": 222810,
+      "duplicate_crash_ids": 0,
+      "invalid_zero_coordinates": 17,
+      "missing_coordinates_after_cleaning": 2239,
+      "missing_injury_totals": 509,
+      "missing_severity": 512,
+      "date_parse_failures": 0,
+      "output_sha256": "5fa289caccd4e639f3e2da2a9df8c9e48ba8d8a41682ff872dcf4e724785828d"
+    },
+    "people": {
+      "rows_before": 491892,
+      "rows_after": 491892,
+      "duplicate_person_ids": 0,
+      "negative_ages_corrected": 1,
+      "zero_non_passenger_ages_corrected": 1965,
+      "total_ages_corrected": 1966,
+      "passengers_aged_zero_preserved": 1109,
+      "missing_ages_after_cleaning": 145664,
+      "missing_injury_classification": 101,
+      "unknown_injury_flag": 101,
+      "date_parse_failures": 0,
+      "output_sha256": "c9522eca08262f3cbc3fce390f2d26b7ceed2b6916c7dd5656266b5de6594f3c"
+    },
+    "weather": {
+      "rows_before": 29249,
+      "rows_after": 731,
+      "rows_outside_study_period": 28518,
+      "duplicate_dates": 0,
+      "missing_precipitation": 0,
+      "trace_precipitation_days": 79,
+      "days_with_measurable_precipitation": 260,
+      "days_with_zero_measured_precipitation": 471,
+      "output_sha256": "5e812f567b797ee093d170c391a0fbb943a1572ad32c962dfa52bb84f1f44706"
+    }
+  }
+}

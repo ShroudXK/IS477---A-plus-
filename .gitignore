@@ -1,2 +1,5 @@
 data/raw/*.csv
 data/clean/*.csv
+data/integrated/*.csv
+# Small review list is kept in the repository.
+!data/integrated/cross_table_review.csv
