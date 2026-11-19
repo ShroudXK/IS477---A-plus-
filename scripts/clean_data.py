@@ -6,8 +6,20 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+# ID columns are read as text so 1668221 is not turned into 1668221.0.
+ID_COLUMNS = ["crash_record_id", "person_id", "vehicle_id"]
+
+
 def read_csv(path):
-    data = pd.read_csv(path, low_memory=False)
+    header = pd.read_csv(path, nrows=0).columns
+    id_types = {}
+    for name in header:
+        if name.strip().lower() in ID_COLUMNS:
+            id_types[name] = "string"
+    # Only empty cells count as missing. Text such as "NA" is kept as a value,
+    # the same rule used in Yifei's quality assessment script.
+    data = pd.read_csv(path, dtype=id_types, low_memory=False,
+                       keep_default_na=False, na_values=[""])
     data.columns = data.columns.str.strip().str.lower()
     return data
 
@@ -74,16 +86,17 @@ def clean_people(raw_folder, clean_folder):
     person_dates = pd.to_datetime(df["crash_date"], errors="coerce")
     df["person_crash_day"] = person_dates.dt.strftime("%Y-%m-%d")
 
-    df["age_original"] = df["age"]
-    df["age"] = pd.to_numeric(df["age"], errors="coerce")
-    negative_age = df["age"] < 0
-    zero_non_passenger = (df["age"] == 0) & df["person_type"].ne("PASSENGER").fillna(True)
+    # Ages are whole numbers; Int64 keeps them as 54 (not 54.0) and allows blanks.
+    df["age"] = pd.to_numeric(df["age"], errors="coerce").astype("Int64")
+    df["age_original"] = df["age"].copy()
+    negative_age = (df["age"] < 0).fillna(False)
+    zero_non_passenger = ((df["age"] == 0) & df["person_type"].ne("PASSENGER").fillna(True)).fillna(False)
     bad_age = negative_age | zero_non_passenger
     df["invalid_age"] = bad_age
     df.loc[bad_age, "age"] = pd.NA
 
     df["age_group"] = pd.cut(
-        df["age"],
+        df["age"].astype("float"),
         bins=[-1, 17, 24, 34, 44, 54, 64, float("inf")],
         labels=["0-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"],
     ).astype("string").fillna("Unknown")
@@ -108,7 +121,7 @@ def clean_people(raw_folder, clean_folder):
         "zero_non_passenger_ages_corrected": int(zero_non_passenger.sum()),
         "total_ages_corrected": int(bad_age.sum()),
         "passengers_aged_zero_preserved": int(
-            ((df["age"] == 0) & (df["person_type"] == "PASSENGER")).sum()
+            ((df["age"] == 0) & (df["person_type"] == "PASSENGER")).fillna(False).sum()
         ),
         "missing_ages_after_cleaning": int(df["age"].isna().sum()),
         "missing_injury_classification": int(df["injury_classification"].isna().sum()),
