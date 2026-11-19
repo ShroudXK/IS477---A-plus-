@@ -80,8 +80,6 @@ Do not drop rows because a field is missing or a value looks wrong, and do not f
 The raw data are good enough to use for this project if these limits are respected and documented.
 
 # Data Cleaning
-
-**Project:** Chicago Traffic Safety: Weather, Crash Frequency, and Injury Patterns
 **Responsible Member:** Jacob Lee
 
 ## Overview
