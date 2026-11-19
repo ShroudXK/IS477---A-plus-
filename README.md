@@ -69,7 +69,7 @@ The workflow is a chain of separate, single-purpose scripts, run in this order b
 | 4. Integrate | [`scripts/integrate_data.py`](scripts/integrate_data.py) | `data/clean/` | `data/integrated/` + `integration_summary.json` |
 | 5. Analyze | to be added | `data/integrated/` | results |
 
-Steps 3 and 4 check their own results (row counts, join match rates, and the cross-table counts from the quality assessment) and stop with an error if anything is different. The details are in [`StatusReport.md`](StatusReport.md): see the Data Cleaning, Data Cleaning (continued), and Data Integration sections.
+Steps 3 and 4 check their own results (row counts, join match rates, and the cross-table counts from the quality assessment) and stop with an error if anything is different. The technical details are in [`WorkLog.md`](WorkLog.md) (Data Quality Assessment, Data Cleaning, Data Cleaning (continued), and Data Integration); [`StatusReport.md`](StatusReport.md) holds the concise Milestone 3 interim status report.
 
 ## How to reproduce
 
@@ -93,7 +93,8 @@ No other steps or edits are needed. All paths are relative to the project folder
 ```
 README.md              Project introduction (the final report will later be written here)
 ProjectPlan.md         Project plan
-StatusReport.md        Interim status report (quality assessment, cleaning, integration)
+StatusReport.md        Milestone 3 interim status report (progress, timeline, changes, challenges, contributions)
+WorkLog.md             Full technical work log (quality assessment, cleaning, integration, final report notes)
 requirements.txt       Pinned Python packages
 scripts/
   run_all.py                    Runs the whole workflow in order

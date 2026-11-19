@@ -28,12 +28,12 @@ The following roles are proposed and will be confirmed by the team. All members 
 
 | Team Member | Proposed Role | Planned responsibilities |
 | --- | --- | --- |
-| Eric Xu | Data Integration | Integrate the Crashes, People, and NOAA weather datasets using crash IDs and dates, validate the joins, and prepare analysis-ready tables with reproducible code. |
-| Jacob Lee | Data Cleaning | Clean the datasets by handling missing values, removing duplicates, and fixing inconsistent formats to prepare the data for integration. |
-| Yifei Zhang | Data Quality Assessment |Assess the quality of the three datasets by checking accuracy, completeness, timeliness, and consistency. Identify missing values, duplicates, and inconsistencies before integration, and evaluate the quality of the combined dataset after integration.|
-| Jiacheng Lin | Final data report | Write the final data report, summarize the main findings, explain data cleaning and integration decisions, discuss constraints and limitations, and coordinate with teammates to review the report before submission.|
+| Eric Xu | Data Integration; Data Cleaning (continued) | Integrate the Crashes, People, and NOAA weather datasets using crash IDs and dates, validate the joins, and prepare analysis-ready tables with reproducible code. After the first-pass cleaning, complete follow-up fixes needed for integration and reproducibility. Proposed lead for research question 1. |
+| Jacob Lee | Data Cleaning | Clean the datasets by handling missing values, removing duplicates, and fixing inconsistent formats to prepare the data for integration. Proposed lead for research question 2. |
+| Yifei Zhang | Data Quality Assessment | Assess the quality of the three datasets by checking accuracy, completeness, timeliness, and consistency. Identify missing values, duplicates, and inconsistencies before integration, and evaluate the quality of the combined dataset after integration. Proposed lead for research question 3. |
+| Jiacheng Lin | Final data report | Write the final data report, summarize the main findings, explain data cleaning and integration decisions, discuss constraints and limitations, and coordinate with teammates to review the report before submission. Proposed lead for research question 4. |
 
-In addition to these roles, each member will select one of the four research questions and complete its analysis, visualizations, and written findings. The team will coordinate selections so that each question has one lead.
+In addition to these roles, each member will lead one of the four research questions and complete its analysis, visualizations, and written findings. The proposed, role-aligned assignment, to be confirmed by the team, is: Q1, Eric Xu (daily crashes vs. precipitation, using `daily.csv`); Q2, Jacob Lee (injuries by roadway user type); Q3, Yifei Zhang (injuries by age group); and Q4, Jiacheng Lin (user-type injuries by precipitation).
 
 ## Research or Business Questions:
 
@@ -116,23 +116,23 @@ The main analysis will use `PRCP` to classify days by precipitation and compare 
 
 We will first join the People dataset to the Crashes dataset using `CRASH_RECORD_ID`. This is a many-to-one join from people to crashes: several people can belong to the same crash. We will then extract the calendar date from `CRASH_DATE` and join it to NOAA's `DATE`, with one weather record per station-day. Each person in the integrated table will therefore have their individual characteristics, the associated crash information, and the daily weather measurements.
 
-We will retain two analysis tables: a crash-level table with one row per crash and a person-level table with one row per person. The crash-level table will be aggregated by date and aligned with the full study calendar for daily crash comparisons. The person-level table will support injury comparisons by roadway user type, age group, and precipitation category. This structure allows all three datasets to contribute while preserving the correct counting unit for each research question.
+We retain three analysis tables: a crash-level table with one row per crash, a person-level table with one row per person, and a daily table with one row per study-period day. The daily table is aligned with the full study calendar for crash-count comparisons. The person-level table supports injury comparisons by roadway user type, age group, and precipitation category. This structure allows all three datasets to contribute while preserving the correct counting unit for each research question.
 
 ## Timeline
 
-| Target Completion | Task | Description / Deliverable | Responsible Member(s) |
-| --- | --- | --- | --- |
-| Oct. 30 | Confirm scope and responsibilities | Finalize the scope, roles, and requirements checklist. Each member will select one of the four research questions, with one analysis lead per question. | All members |
-| Oct. 30 | Verify dataset feasibility | Check access, provenance, reuse terms, coverage, and compatible linkage fields. | Yifei; Eric |
-| Nov. 6 | Acquire and document data | Download the three datasets for 2023–2024, verify SHA-256 checksums, and document sources and variable definitions. | All members |
-| Nov. 13 | Assess source data quality | Before cleaning and integration, assess accuracy, completeness, timeliness, and consistency, and document the issues to address. | Yifei |
-| Nov. 13 | Clean datasets | Handle missing values, duplicates, invalid values, and inconsistent formats, and document cleaning decisions. | Jacob |
-| Nov. 13 | Integrate datasets | Join the cleaned datasets using crash IDs and dates, validate the joins, and prepare crash-level and person-level analysis tables. | Eric |
-| Nov. 13 | Assess integrated data quality | After integration, assess the four quality dimensions and review matching rates, row counts, and unmatched records with Eric. | Yifei |
-| Nov. 20 | Analyze and visualize | Each member will analyze their selected research question, create supporting tables and visualizations, and write up their methods and findings. | All members; one question per member |
-| Nov. 20 | Document and reproduce workflow | Complete the data dictionary, source citations, dependency information, automated workflow, and reproduction instructions. | Jiacheng; Eric |
-| Nov. 27 | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and data-sharing restrictions. | All members |
-| Nov. 27 | Complete the final report and submission | Jiacheng will compile the report from all members' contributions. The team will review findings, verify reproducibility, check course requirements, and finalize the submission. | Jiacheng; all members |
+| Original Target | Updated / Actual | Task | Description / Deliverable | Responsible Member(s) | Status |
+| --- | --- | --- | --- | --- | --- |
+| Oct. 30 | Oct. 22 | Confirm scope and responsibilities | Finalize the scope, roles, and requirements checklist. Each member will lead one of the four research questions, with one analysis lead per question. | All members | Completed |
+| Oct. 30 | Oct. 30 | Verify dataset feasibility | Check access, provenance, reuse terms, coverage, and compatible linkage fields. | Yifei Zhang; Eric Xu | Completed |
+| Nov. 6 | Nov. 16–18 | Acquire and document data | Download the three datasets for 2023–2024, verify SHA-256 checksums, and document sources and variable definitions. | All members | Completed |
+| Nov. 13 | Nov. 18 | Assess source data quality | Before cleaning and integration, assess accuracy, completeness, timeliness, and consistency, and document the issues to address. | Yifei Zhang | Completed |
+| Nov. 13 | Nov. 18–19 | Clean datasets | Handle missing values, duplicates, invalid values, and inconsistent formats, and document cleaning decisions. Eric Xu completed follow-up fixes needed for integration. | Jacob Lee; Eric Xu | Completed |
+| Nov. 13 | Nov. 19 | Integrate datasets | Join the cleaned datasets using crash IDs and dates, validate the joins, and prepare crash-level, person-level, and daily analysis tables, plus a cross-table review list. | Eric Xu | Completed |
+| Nov. 13 | Nov. 21 | Assess integrated data quality | After integration, assess the four quality dimensions and review matching rates, row counts, and unmatched records with Eric. | Yifei Zhang | Not started |
+| Nov. 20 | Nov. 25 | Analyze and visualize | Each member will analyze their selected research question, create supporting tables and visualizations, and write up their methods and findings. | All members; one question per member | Not started |
+| Nov. 20 | Nov. 26 | Document and reproduce workflow | Complete the data dictionary, source citations, dependency information, automated workflow, and reproduction instructions. The run-all workflow and reproduction instructions are done; the data dictionary and metadata remain. | Jiacheng Lin; Eric Xu | In progress |
+| Nov. 27 | Nov. 27 | Review ethics and limitations | Assess privacy, bias, coverage gaps, interpretation limits, and data-sharing restrictions. | All members | Not started |
+| Nov. 27 | Nov. 27 | Complete the final report and submission | Jiacheng will compile the report from all members' contributions. The team will review findings, verify reproducibility, check course requirements, and finalize the submission. | Jiacheng Lin; all members | In planning |
 
 ## Constraints
 
@@ -146,14 +146,15 @@ We will retain two analysis tables: a crash-level table with one row per crash a
 | Technical and interpretation limits | The team has limited time and computing resources. Differences in crash counts may also reflect traffic volume, holidays, or other factors beyond precipitation. Without traffic exposure data, crash counts cannot directly measure the risk of crashing per trip.| Keep the analysis focused on the research questions and the 2023–2024 period. Describe results as associations and avoid claiming that precipitation causes crashes or that one group is inherently less safe. |
 
 ## Gaps
-There are still a few areas that we need to explore as we move forward with our project.
 
-Weather Data Coverage: We need to confirm whether the NOAA weather dataset has complete daily observations for 2023–2024. Since we are using data from Chicago O'Hare International Airport, we also need to consider whether these observations accurately represent weather conditions across Chicago.
+Several earlier gaps have now been checked, and a few items remain.
 
-Data Quality: We have not fully assessed the quality of the three datasets. We need to check for missing values, duplicate records, and inconsistent information, especially in fields such as age, injury classification, and crash dates. We will then decide how to handle these issues.
+Weather Data Coverage: The NOAA O'Hare file has complete daily observations for all 731 days in 2023–2024, including 2024-02-29, with no missing PRCP, TMAX, TMIN, SNOW, or SNWD values. We still treat these observations as a city-wide daily summary, not the exact condition at the crash time or location.
 
-Data Integration: Although the Crashes and People datasets share CRASH_RECORD_ID, we still need to verify how many records can be successfully matched. We also need to confirm that the dates in the crash records align with the NOAA weather observations.
+Data Quality: Pre-integration quality has been assessed for accuracy, completeness, timeliness, and consistency; the findings are in [`WorkLog.md`](WorkLog.md). The post-integration four-dimension quality assessment of the combined tables is still outstanding and is scheduled for November 21.
 
-Workflow and Reproducibility: We still need to decide how to organize our scripts and automate the entire process. As we learn more about workflow automation and metadata documentation in class, we will update our approach to make sure others can reproduce our results.
+Data Integration: Joins have been validated. Every person matches a crash (491,892 / 491,892, 100%), every crash date matches an O'Hare weather day (222,810 / 222,810, 100%), and 99.77% of crashes (222,301 / 222,810) have at least one person. The remaining 509 crashes are kept in daily counts, and a 340-row review list records cross-table disagreements.
 
-We will continue to address these gaps as we work with the datasets and document any important decisions or changes in our GitHub repository.
+Workflow and Reproducibility: `scripts/run_all.py` now automates acquisition, quality assessment, cleaning, and integration from a fresh clone, with SHA-256 checks and pinned dependencies. Analysis scripts, a data dictionary, and machine-readable metadata are still needed.
+
+We will continue to address the remaining gaps as we work with the datasets and document any important decisions or changes in our GitHub repository.
