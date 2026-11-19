@@ -74,10 +74,10 @@ Four updates during execution:
 
 *Each teammate should review, revise if needed, and personally commit their paragraph below before the team creates the `status-report` tag.*
 
-**Eric Xu.** I lead data integration and contributed follow-up cleaning. I added the Box download script and SHA-256 checks, reviewed Jacob's cleaning against Yifei's assessment, and fixed pandas default-NA parsing and float-cast IDs and ages in `scripts/clean_data.py`. I pinned package versions, updated `.gitignore`, wrote `scripts/integrate_data.py` and `scripts/run_all.py`, verified a fresh-clone rerun, and wrote the Data Cleaning (continued) and Data Integration sections now archived in [`WorkLog.md`](WorkLog.md).
+**Eric Xu:** I lead data integration and contributed follow-up cleaning. I added the Box download script and SHA-256 checks, reviewed Jacob's cleaning against Yifei's assessment, and fixed pandas default-NA parsing and float-cast IDs and ages in `scripts/clean_data.py`. I pinned package versions, updated `.gitignore`, wrote `scripts/integrate_data.py` and `scripts/run_all.py`, verified a fresh-clone rerun, and wrote the Data Cleaning (continued) and Data Integration sections now archived in [`WorkLog.md`](WorkLog.md).
 
-**Jacob Lee.** I lead data cleaning. I wrote the first version of `scripts/clean_data.py`, keeping all crash and person records, correcting invalid coordinates and impossible ages, adding age groups and an injured flag, and filtering weather to 731 study-period days. I documented these decisions in [`WorkLog.md`](WorkLog.md) (Data Cleaning) and handed cross-table issues to integration.
+**Jacob Lee.** 
 
-**Yifei Zhang.** I lead data quality assessment. I assessed accuracy, completeness, timeliness, and consistency on the raw files, wrote [`scripts/Data quality Assessment.py`](scripts/Data%20quality%20Assessment.py), and recorded the findings in [`WorkLog.md`](WorkLog.md) (Dataset Quality Assessment) to guide cleaning and integration. Next, I will assess the integrated tables.
+**Yifei Zhang.** I led data quality assessment. I assessed accuracy, completeness, timeliness, and consistency on the raw files, wrote [`scripts/Data quality Assessment.py`](scripts/Data%20quality%20Assessment.py), and recorded the findings in [`WorkLog.md`](WorkLog.md) (Dataset Quality Assessment) to guide cleaning and integration. Next, I will assess the integrated tables.
 
-**Jiacheng Lin.** I lead the final data report. I have reviewed the quality and cleaning sections and identified two decisions the report needs to explain: why crashes without matching person records still count toward daily crash totals, and why missing injury information should not be treated as “no injury.” Next, I will compile findings for all four research questions once the tables and figures are finalized.
+**Jiacheng Lin.** 
