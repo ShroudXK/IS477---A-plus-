@@ -1,2 +1,12 @@
-requests
-pandas
+# Tested with Python 3.13 on 2026-11-19.
+# Packages used directly by the scripts:
+pandas==3.1.1
+numpy==2.5.5
+requests==2.34.2
+# Packages installed with them (pinned so a fresh install matches our run):
+certifi==2026.10.23
+charset-normalizer==3.5.2
+idna==3.20
+python-dateutil==4.0.0
+tzdata==2026.6
+urllib3==2.8.0
