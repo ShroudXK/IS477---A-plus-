@@ -80,4 +80,4 @@ Four updates during execution:
 
 **Yifei Zhang.** I led data quality assessment. I assessed accuracy, completeness, timeliness, and consistency on the raw files, wrote [`scripts/Data quality Assessment.py`](scripts/Data%20quality%20Assessment.py), and recorded the findings in [`WorkLog.md`](WorkLog.md) (Dataset Quality Assessment) to guide cleaning and integration. Next, I will assess the integrated tables.
 
-**Jiacheng Lin.** 
+**Jiacheng Lin.** I am responsible for writing the final data report for our study of Chicago traffic crashes and daily weather in 2023–2024. So far, I have reviewed the team's data quality and cleaning sections and identified two decisions the report needs to explain: why crashes without matching person records still count toward daily crash totals, and why missing injury information should not be treated as “no injury.” I will incorporate the findings for all four research questions once the team has verified the joins and finalized the tables and figures.
