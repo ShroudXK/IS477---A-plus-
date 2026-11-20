@@ -76,7 +76,7 @@ Four updates during execution:
 
 **Eric Xu:** I lead data integration and contributed follow-up cleaning. I added the Box download script and SHA-256 checks, reviewed Jacob's cleaning against Yifei's assessment, and fixed pandas default-NA parsing and float-cast IDs and ages in `scripts/clean_data.py`. I pinned package versions, updated `.gitignore`, wrote `scripts/integrate_data.py` and `scripts/run_all.py`, verified a fresh-clone rerun, and wrote the Data Cleaning (continued) and Data Integration sections now archived in [`WorkLog.md`](WorkLog.md).
 
-**Jacob Lee.** 
+**Jacob Lee.** I cleaned the three datasets by fixing invalid ages and coordinates while keeping the original records. I also handled missing values without replacing them with incorrect information and converted NOAA weather measurements into standard units. After checking the results, I uploaded the cleaned datasets to Box and shared them with team for data integration and further data cleaning process. 
 
 **Yifei Zhang.** I led data quality assessment. I assessed accuracy, completeness, timeliness, and consistency on the raw files, wrote [`scripts/Data quality Assessment.py`](scripts/Data%20quality%20Assessment.py), and recorded the findings in [`WorkLog.md`](WorkLog.md) (Dataset Quality Assessment) to guide cleaning and integration. Next, I will assess the integrated tables.
 
